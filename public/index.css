@@ -6,17 +6,6 @@ h3,
   margin-right: auto;
 }
 
-.main {
-  flex-grow: 1;
-}
-
-.container {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  min-height: 100vh;
-}
-
 .footer {
   text-align: right;
   position: fixed;
