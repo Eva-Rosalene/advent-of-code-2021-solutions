@@ -1,0 +1,17 @@
+{
+  "name": "advent-of-code-solutions",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "build": "coffee build.coffee",
+    "serve": "serve dist -l tcp://127.0.0.1:5005"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "coffeescript": "^2.6.1",
+    "mustache": "^4.2.0",
+    "serve": "^13.0.2"
+  }
+}

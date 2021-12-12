@@ -1,0 +1,34 @@
+.main {
+  width: fit-content;
+  margin: auto auto;
+}
+
+.main > *:not(:last-child) {
+  margin-bottom: 8px;
+}
+
+.link.link {
+  width: fit-content;
+  margin: auto auto;
+  margin-bottom: 24px;
+}
+
+body {
+  background-color: #181818;
+  color: #eee;
+  font-family: "Inconsolata", monospace;
+}
+
+a {
+  color: lightgreen;
+}
+
+a:visited {
+  color: lightgreen;
+}
+
+.error {
+  border: 1px solid rgba(255, 0, 0, 0.5);
+  border-radius: 4px;
+  color: #eee;
+}
