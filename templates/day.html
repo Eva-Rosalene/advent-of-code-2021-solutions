@@ -11,30 +11,48 @@
     />
   </head>
   <body>
-    <div class="main">
-      <h3>
-        Solution for
-        <a target="_blank" href="https://adventofcode.com/2021"
-          >Advent of Code 2021</a
-        >
-        -
-        <a
-          target="_blank"
-          href="https://adventofcode.com/2021/day/{{day.index}}"
-          >{{ day.name }}</a
-        >
-      </h3>
-      <div class="link">
-        <a href="../">All solutions</a>
+    <div class="container">
+      <div class="main">
+        <h3>
+          Solution for
+          <a target="_blank" href="https://adventofcode.com/2021"
+            >Advent of Code 2021</a
+          >
+          -
+          <a
+            target="_blank"
+            href="https://adventofcode.com/2021/day/{{day.index}}"
+            >{{ day.name }}</a
+          >
+        </h3>
+        <div class="link">
+          <a href="../">All solutions</a>
+        </div>
+        <div>
+          <label for="input">Your personal input</label>
+          <input id="input" type="file" />
+        </div>
+        <div>
+          Answer for part 1: <input disabled type="text" id="answer-1" />
+        </div>
+        <div>
+          Answer for part 2: <input disabled type="text" id="answer-2" />
+        </div>
+        <h3 class="source-header">
+          Source code (<span class="js-link" id="select-button">select all</span
+          >)
+        </h3>
+        <pre
+          id="source"
+          class="code line-numbers"
+        ><code class="language-coffee">{{ &code }}</code></pre>
       </div>
-      <div>
-        <label for="input">Your personal input</label>
-        <input id="input" type="file" />
+      <div class="footer-placeholder">&nbsp;</div>
+      <div class="footer">
+        written in
+        <a target="_blank" href="https://coffeescript.org/">coffeescript</a>,
+        powered by <a target="_blank" href="https://netlify.com">Netlify</a>
       </div>
-      <div>Answer for part 1: <input disabled type="text" id="answer-1" /></div>
-      <div>Answer for part 2: <input disabled type="text" id="answer-2" /></div>
-      <h3 class="source-header">Source code (<a target="_blank" href="https://coffeescript.org/">coffeescript</a>), <span class="js-link" id="select-button">select all</span></h4>
-      <pre id="source" class="code line-numbers"><code class="language-coffee">{{ &code }}</code></pre>
     </div>
     <script src="solution-day-{{ day.index }}.js"></script>
     <script src="select-all.js"></script>

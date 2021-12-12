@@ -6,6 +6,36 @@ h3,
   margin-right: auto;
 }
 
+.main {
+  flex-grow: 1;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.footer {
+  text-align: right;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #333;
+}
+
+.footer-placeholder {
+  width: 100%;
+}
+
+.footer,
+.footer-placeholder {
+  padding: 16px;
+  box-sizing: border-box;
+}
+
 .main > *:not(:last-child) {
   margin-bottom: 8px;
 }
@@ -14,6 +44,11 @@ h3,
   width: fit-content;
   margin: auto auto;
   margin-bottom: 24px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
 }
 
 body {
