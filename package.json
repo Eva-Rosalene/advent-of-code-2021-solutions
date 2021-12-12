@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.4",
     "coffeescript": "^2.6.1",
     "minify": "^7.2.2",
     "mustache": "^4.2.0",

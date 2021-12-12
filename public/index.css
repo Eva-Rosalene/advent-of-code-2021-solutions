@@ -7,12 +7,27 @@ h3,
 }
 
 .footer {
-  text-align: right;
   position: fixed;
   left: 0;
   right: 0;
   bottom: 0;
   background-color: #333;
+  display: flex;
+  align-items: center;
+}
+
+.grow {
+  flex-grow: 1;
+}
+
+.gh-icon {
+  margin-left: 16px;
+  width: 24px;
+  display: block;
+}
+
+.footer-text {
+  padding: 16px;
 }
 
 .footer-placeholder {
@@ -21,8 +36,11 @@ h3,
 
 .footer,
 .footer-placeholder {
-  padding: 16px;
   box-sizing: border-box;
+}
+
+.footer-placeholder {
+  padding: 16px;
 }
 
 .main > *:not(:last-child) {

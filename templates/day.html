@@ -43,9 +43,17 @@
     </div>
     <div class="footer-placeholder">&nbsp;</div>
     <div class="footer">
-      written in
-      <a target="_blank" href="https://coffeescript.org/">coffeescript</a>,
-      powered by <a target="_blank" href="https://netlify.com">Netlify</a>
+      <div>
+        <a class="gh-icon" href="https://github.com/Eva-Rosalene/advent-of-code-2021-solutions" target="_blank">
+          {{ & ghIcon }}
+        </a>
+      </div>
+      <div class="grow"></div>
+      <div class="footer-text">
+        written in
+        <a target="_blank" href="https://coffeescript.org/">coffeescript</a>,
+        powered by <a target="_blank" href="https://netlify.com">Netlify</a>
+      </div>
     </div>
     <script src="solution-day-{{ day.index }}.js"></script>
     <script src="select-all.js"></script>

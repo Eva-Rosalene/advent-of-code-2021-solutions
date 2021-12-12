@@ -31,7 +31,7 @@ getTags = (day) ->
   tagsStr = tagsLine.split("@")[1].trim()
   tagsStr.split(',').map((line) => line.trim()).filter((line) => line.length)
 
-compile = (day) ->
+compile = (day, ghIcon) ->
   tags = await getTags day
   return if ["under-construction", "unreleased"].some (tag) => tags.includes(tag)
   commonCoffee = await fsp.readFile "common/common.coffee", "utf-8"
@@ -45,6 +45,7 @@ compile = (day) ->
       name: await getDayName day
       index: dayIndex
     code: prism.highlight(solutionCoffee, prism.languages.coffee, 'coffee')
+    ghIcon: ghIcon
   await fsp.writeFile "dist/day-#{dayIndex}.html", dayHtml
   await fsp.writeFile "dist/solution-day-#{dayIndex}.js", solutionJS
 
@@ -56,11 +57,12 @@ prepareDay = (day) ->
   underConstructionMessage = tags.includes("under-construction")
   return { index, name, noLink, underConstructionMessage }
 
-compileIndex = (days) ->
+compileIndex = (days, ghIcon) ->
   indexTemplate = await fsp.readFile "templates/index.html", "utf-8"
   preparedDays = await Promise.all days.map prepareDay
   indexHtml = mustache.render indexTemplate,
     days: preparedDays
+    ghIcon: ghIcon
   await fsp.writeFile "dist/index.html", indexHtml
 
 minify = () ->
@@ -80,9 +82,11 @@ main = () ->
     getIndex(a) - getIndex(b)
   await fsp.mkdir "dist",
     recursive: true
+  ghIcon = await fsp.readFile "node_modules/@fortawesome/fontawesome-free/svgs/brands/github.svg", "utf-8"
+  ghIcon = ghIcon.replace /<path\s/gi, '<path fill="currentColor" '
   for day from days
-    await compile day
-  await compileIndex days
+    await compile day, ghIcon
+  await compileIndex days, ghIcon
   for publicEntry from await fsp.readdir "public"
     await fsp.copyFile "public/#{publicEntry}", "dist/#{publicEntry}"
   selectAllSource = await fsp.readFile "common/select-all.coffee", "utf-8"
