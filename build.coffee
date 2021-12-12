@@ -1,8 +1,10 @@
+minifier      = require "minify"
 fs            = require "fs"
 coffee        = require "coffeescript"
 mustache      = require "mustache"
 prism         = require "prismjs"
 loadLanguages = require "prismjs/components/"
+tryToCatch    = require "try-to-catch"
 
 fsp = fs.promises
 loadLanguages ["coffee"]
@@ -52,6 +54,16 @@ compileIndex = (days) ->
     days: preparedDays
   await fsp.writeFile "dist/index.html", indexHtml
 
+minify = () ->
+  files = await fsp.readdir "dist"
+  for file from files
+    continue unless /\.(css|js|html)$/i.test file
+    [error, data] = await tryToCatch minifier, "dist/#{file}",
+      html:
+        removeAttributeQuotes: false
+    throw error if error?
+    await fsp.writeFile "dist/#{file}", data
+
 main = () ->
   entries = await fsp.readdir "solutions"
   days = entries.filter (entry) => entry.startsWith("day-") and entry.endsWith(".coffee")
@@ -67,6 +79,7 @@ main = () ->
   selectAllSource = await fsp.readFile "common/select-all.coffee", "utf-8"
   selectAllJS = coffee.compile selectAllSource
   await fsp.writeFile "dist/select-all.js", selectAllJS
+  await minify()
 
 main().catch (error) ->
   console.error error

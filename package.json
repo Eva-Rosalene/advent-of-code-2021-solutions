@@ -11,8 +11,10 @@
   "license": "ISC",
   "dependencies": {
     "coffeescript": "^2.6.1",
+    "minify": "^7.2.2",
     "mustache": "^4.2.0",
     "prismjs": "^1.25.0",
-    "serve": "^13.0.2"
+    "serve": "^13.0.2",
+    "try-to-catch": "^3.0.0"
   }
 }
