@@ -14,8 +14,6 @@
     "coffeescript": "^2.6.1",
     "minify": "^7.2.2",
     "mustache": "^4.2.0",
-    "prettier": "github:helixbass/prettier#prettier-v2.1.0-dev.100-gitpkg",
-    "prettier-plugin-coffeescript": "^0.1.5",
     "prismjs": "^1.25.0",
     "serve": "^13.0.2",
     "try-to-catch": "^3.0.0"
