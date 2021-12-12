@@ -2,8 +2,7 @@
 
 iterateNumbers = (lines) ->
   for line from lines
-    numbers = line
-      .split /\s+/g
+    numbers = line.split /\s+/g
       .filter (number) => number.length
       .map (number) => +number
     for number from numbers
@@ -39,7 +38,7 @@ class Board
       for j in [0..4]
         @marked[i][j] = true if @data[i][j] is number
 
-  isComplete: ->
+  isComplete: () ->
     for i in [0..4]
       rowComplete = true
       for j in [0..4]
@@ -53,12 +52,13 @@ class Board
       return true if columnComplete
     false
 
-  getScore: ->
+  getScore: () ->
     unmarkedSum = 0
     for i in [0..4]
       for j in [0..4]
         unmarkedSum += @data[i][j] unless @marked[i][j]
     @last * unmarkedSum
+
 
 parse = (input) ->
   [header, ...rest] = input
@@ -72,8 +72,8 @@ parse = (input) ->
     .filter (token) => token.length
     .map (token) => +token
 
-  boards = [...iterateBoards(iterateNumbers rest)]
-  { tokens, boards }
+  boards = [...iterateBoards iterateNumbers rest]
+  { tokens, boards } 
 
 getWinningBoard = (boards, tokens) ->
   for token from tokens
@@ -91,7 +91,7 @@ getLastWinningBoard = (boards, tokens) ->
       boards.splice index, 1
     indicesToRemove = []
     if boards.length
-      for i in [0..(boards.length - 1)]
+      for i in [0..boards.length - 1]
         board = boards[i]
         board.mark token
         if board.isComplete()
@@ -101,12 +101,12 @@ getLastWinningBoard = (boards, tokens) ->
 
 solve1 = (input) ->
   { boards, tokens } = parse input
-  winner = getWinningBoard boards, tokens
-  throw new Error 'No winning board :(' unless winner?
+  winner = getWinningBoard(boards, tokens)
+  throw new Error "No winning board :(" unless winner?
   winner.getScore()
 
 solve2 = (input) ->
   { boards, tokens } = parse input
-  lastWinner = getLastWinningBoard boards, tokens
-  throw new Error 'No last-winning board :(' unless lastWinner?
+  lastWinner = getLastWinningBoard(boards, tokens)
+  throw new Error "No last-winning board :(" unless lastWinner?
   lastWinner.getScore()

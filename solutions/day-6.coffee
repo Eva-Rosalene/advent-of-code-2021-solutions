@@ -2,13 +2,13 @@
 
 parse = (input) ->
   fishes = input
-    .split ','
-    .map (i) => i.trim()
-    .filter (i) => i.length
-    .map (i) => +i
+    .split(',')
+    .map((i) => i.trim())
+    .filter((i) => i.length)
+    .map((i) => +i)
   model = (0 for _ in [0..8])
   for fish from fishes
-    throw new Error "Forbidden fish: #{fish}" if fish < 0 or fish > 8
+    throw new Error("Forbidden fish: #{fish}") if fish < 0 or fish > 8
     model[fish] += 1
   model
 
@@ -25,11 +25,11 @@ solveDays = (input, days) ->
   for _ in [1..days]
     model = step model
   result = 0
-  (result += group) for group from model
+  result += group for group from model
   result
 
 solve1 = (input) ->
-  solveDays input, 80
+  solveDays(input, 80)
 
 solve2 = (input) ->
-  solveDays input, 256
+  solveDays(input, 256)
