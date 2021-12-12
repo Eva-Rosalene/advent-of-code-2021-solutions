@@ -17,12 +17,14 @@ main = () ->
       answers.answer1.value = solve1 data
       answers.answer1.classList.toggle "error", false
     catch error
+      console.error error
       answers.answer1.value = error.message
       answers.answer1.classList.toggle "error", true
     try
       answers.answer2.value = solve2 data
       answers.answer2.classList.toggle "error", false
     catch error
+      console.error error
       answers.answer2.value = error.message
       answers.answer2.classList.toggle "error", true
 

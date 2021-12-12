@@ -88,7 +88,7 @@ main = () ->
   selectAllSource = await fsp.readFile "common/select-all.coffee", "utf-8"
   selectAllJS = coffee.compile selectAllSource
   await fsp.writeFile "dist/select-all.js", selectAllJS
-  await minify()
+  await minify() unless process.env.NODE_ENV is "development"
 
 main().catch (error) ->
   console.error error
