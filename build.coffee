@@ -1,8 +1,11 @@
-fs       = require "fs"
-coffee   = require "coffeescript"
-mustache = require "mustache"
+fs            = require "fs"
+coffee        = require "coffeescript"
+mustache      = require "mustache"
+prism         = require "prismjs"
+loadLanguages = require "prismjs/components/"
 
 fsp = fs.promises
+loadLanguages ["coffee"]
 
 getIndex = (day) ->
   rExp = /^day-(\d+).coffee$/
@@ -25,16 +28,17 @@ getIsUnderConstruction = (day) ->
 
 compile = (day) ->
   return if await getIsUnderConstruction day
+  commonCoffee = await fsp.readFile "common/common.coffee", "utf-8"
+  solutionCoffee = await fsp.readFile "solutions/#{day}", "utf-8"
+  fullCoffee = solutionCoffee + "\n\n" + commonCoffee
+  solutionJS = coffee.compile fullCoffee
   dayTemplate = await fsp.readFile "templates/day.html", "utf-8"
   dayIndex = getIndex day
   dayHtml = mustache.render dayTemplate,
     day:
       name: await getDayName day
       index: dayIndex
-  commonCoffee = await fsp.readFile "common/common.coffee", "utf-8"
-  solutionCoffee = await fsp.readFile "solutions/#{day}", "utf-8"
-  fullCoffee = solutionCoffee + "\n\n" + commonCoffee
-  solutionJS = coffee.compile fullCoffee
+    code: prism.highlight(solutionCoffee, prism.languages.coffee, 'coffee')
   await fsp.writeFile "dist/day-#{dayIndex}.html", dayHtml
   await fsp.writeFile "dist/solution-day-#{dayIndex}.js", solutionJS
 
@@ -60,6 +64,9 @@ main = () ->
   await compileIndex days
   for publicEntry from await fsp.readdir "public"
     await fsp.copyFile "public/#{publicEntry}", "dist/#{publicEntry}"
+  selectAllSource = await fsp.readFile "common/select-all.coffee", "utf-8"
+  selectAllJS = coffee.compile selectAllSource
+  await fsp.writeFile "dist/select-all.js", selectAllJS
 
 main().catch (error) ->
   console.error error

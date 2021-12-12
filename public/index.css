@@ -1,6 +1,9 @@
+h1,
+h3,
 .main {
   width: fit-content;
-  margin: auto auto;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .main > *:not(:last-child) {
@@ -27,8 +30,21 @@ a:visited {
   color: lightgreen;
 }
 
+.js-link {
+  color: lightgreen;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
 .error {
   border: 1px solid rgba(255, 0, 0, 0.5);
   border-radius: 4px;
   color: #eee;
+}
+
+.code {
+  width: 600px;
+  overflow: auto;
+  background-color: #222;
+  padding: 12px;
 }
