@@ -23,13 +23,17 @@ getDayName = (day) ->
   return "Day #{getIndex(day)}" unless isComment
   firstLine.slice(2).trim()
 
-getIsUnderConstruction = (day) ->
+getTags = (day) ->
   data = await fsp.readFile "solutions/#{day}", "utf-8"
   lines = data.split('\n').map((line) => line.trim()).filter((line) => line.length)
-  lines.indexOf("# @under-construction") > -1
+  tagsLine = lines.find((line) -> /^#\s*@/.test line)
+  return [] unless tagsLine?
+  tagsStr = tagsLine.split("@")[1].trim()
+  tagsStr.split(',').map((line) => line.trim()).filter((line) => line.length)
 
 compile = (day) ->
-  return if await getIsUnderConstruction day
+  tags = await getTags day
+  return if ["under-construction", "unreleased"].some (tag) => tags.includes(tag)
   commonCoffee = await fsp.readFile "common/common.coffee", "utf-8"
   solutionCoffee = await fsp.readFile "solutions/#{day}", "utf-8"
   fullCoffee = solutionCoffee + "\n\n" + commonCoffee
@@ -44,12 +48,17 @@ compile = (day) ->
   await fsp.writeFile "dist/day-#{dayIndex}.html", dayHtml
   await fsp.writeFile "dist/solution-day-#{dayIndex}.js", solutionJS
 
+prepareDay = (day) ->
+  index = getIndex day
+  name = await getDayName day
+  tags = await getTags day
+  noLink = ["under-construction", "unreleased"].some (tag) => tags.includes(tag)
+  underConstructionMessage = tags.includes("under-construction")
+  return { index, name, noLink, underConstructionMessage }
+
 compileIndex = (days) ->
   indexTemplate = await fsp.readFile "templates/index.html", "utf-8"
-  preparedDays = await Promise.all days.map (day) ->
-    index: getIndex day
-    name: await getDayName day
-    underConstruction: await getIsUnderConstruction day
+  preparedDays = await Promise.all days.map prepareDay
   indexHtml = mustache.render indexTemplate,
     days: preparedDays
   await fsp.writeFile "dist/index.html", indexHtml

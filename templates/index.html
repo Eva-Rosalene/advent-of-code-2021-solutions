@@ -18,11 +18,14 @@
         >
       </h1>
       <ul>
-        {{ #days }} {{ ^underConstruction }}
-        <li><a href="day-{{index}}.html">{{name}}</a></li>
-        {{ /underConstruction }} {{ #underConstruction }}
-        <li>{{name}} (UNDER CONSTRUCTION)</li>
-        {{ /underConstruction }} {{ /days }}
+        {{ #days }}
+          {{ ^noLink }}
+            <li><a href="day-{{index}}.html">{{name}}</a></li>
+          {{ /noLink }}
+          {{ #noLink }}
+            <li>{{name}}{{ #underConstructionMessage }} (UNDER CONSTRUCTION){{ /underConstructionMessage }}</li>
+          {{ /noLink }}
+        {{ /days }}
       </ul>
     </div>
     <div class="footer-placeholder">&nbsp;</div>
