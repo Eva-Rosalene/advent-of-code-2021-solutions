@@ -1,9 +1,15 @@
 # Day 5: Hydrothermal Venture
 
 parseLine = (line) ->
-  [lineFrom, lineTo] = line.split('->').map((part) -> part.trim())
-  [fromX, fromY] = lineFrom.split(',').map((part) -> +part.trim())
-  [toX, toY] = lineTo.split(',').map((part) -> +part.trim())
+  [lineFrom, lineTo] = line
+    .split '->'
+    .map (part) -> part.trim()
+  [fromX, fromY] = lineFrom
+    .split ','
+    .map (part) -> +part.trim()
+  [toX, toY] = lineTo
+    .split ','
+    .map (part) -> +part.trim()
   return
     from:
       x: fromX
@@ -32,22 +38,21 @@ iterate2 = (line) ->
     diffY = line.to.y - line.from.y
     stepX = if diffX > 0 then 1 else -1
     stepY = if diffY > 0 then 1 else -1
-    distance = Math.abs(diffX)
+    distance = Math.abs diffX
     for step in [0..distance]
       yield "#{line.from.x + stepX * step}:#{line.from.y + stepY * step}"
 
-
 parse = (input) ->
   lines = input
-    .split('\n')
-    .map((i) => i.trim())
-    .filter((i) => i.length)
+    .split '\n'
+    .map (i) => i.trim()
+    .filter (i) => i.length
   lines.map parseLine
 
 solve1 = (input) ->
   lines = parse input
-  covered = new Set
-  twice = new Set
+  covered = new Set()
+  twice = new Set()
   for line from lines
     for point from iterate1 line
       if covered.has point
@@ -58,8 +63,8 @@ solve1 = (input) ->
 
 solve2 = (input) ->
   lines = parse input
-  covered = new Set
-  twice = new Set
+  covered = new Set()
+  twice = new Set()
   for line from lines
     for point from iterate2 line
       if covered.has point
@@ -67,4 +72,3 @@ solve2 = (input) ->
       else
         covered.add point
   twice.size
-

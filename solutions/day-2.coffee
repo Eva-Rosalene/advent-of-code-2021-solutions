@@ -1,9 +1,9 @@
 # Day 2: Dive!
 parse = (input) ->
   input
-    .split("\n")
-    .map((i) => i.trim())
-    .filter((i) => i.length);
+    .split '\n'
+    .map (i) => i.trim()
+    .filter (i) => i.length
 
 solve1 = (input) ->
   commands = parse input
@@ -13,9 +13,9 @@ solve1 = (input) ->
     [name, arg] = command.split /\s+/g
     arg = +arg
     switch name
-      when "forward" then horizontal += arg
-      when "down" then depth += arg
-      when "up" then depth -= arg
+      when 'forward' then horizontal += arg
+      when 'down' then depth += arg
+      when 'up' then depth -= arg
   depth * horizontal
 
 solve2 = (input) ->
@@ -28,9 +28,9 @@ solve2 = (input) ->
     [name, arg] = command.split /\s+/g
     arg = +arg
     switch name
-      when "forward"
+      when 'forward'
         horizontal += arg
         depth += arg * aim
-      when "down" then aim += arg
-      when "up" then aim -= arg
+      when 'down' then aim += arg
+      when 'up' then aim -= arg
   depth * horizontal
