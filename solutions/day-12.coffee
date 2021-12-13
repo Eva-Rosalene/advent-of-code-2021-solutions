@@ -19,14 +19,14 @@ parse = (input) ->
     append result, b, a
   result
 
-getWays1 = (acc, mapping, path) ->
+getWays1 = (mapping, path) ->
   lastPoint = path[path.length - 1]
   if lastPoint is 'end'
-    acc.push path.join(',')
+    yield path.join(',')
     return
   for adj from mapping.get lastPoint
     continue if /^[a-z]/.test(adj) and path.includes(adj)
-    getWays1 acc, mapping, [...path, adj]
+    yield from getWays1 mapping, [...path, adj]
 
 canVisit2 = (point, path) ->
   return true unless /^[a-z]/.test point
@@ -43,23 +43,21 @@ canVisit2 = (point, path) ->
     return false if twices > 1
   true
 
-getWays2 = (acc, mapping, path) ->
+getWays2 = (mapping, path) ->
   lastPoint = path[path.length - 1]
   if lastPoint is 'end'
-    acc.push path.join(',')
+    yield path.join(',')
     return
   for adj from mapping.get lastPoint
     continue unless canVisit2 adj, path
-    getWays2 acc, mapping, [...path, adj]
+    yield from getWays2 mapping, [...path, adj]
 
 solve1 = (input) ->
-  acc = []
   mapping = parse input
-  getWays1 acc, mapping, ["start"]
-  acc.length
+  result = [...getWays1 mapping, ["start"]]
+  result.length
 
 solve2 = (input) ->
-  acc = []
   mapping = parse input
-  getWays2 acc, mapping, ["start"]
-  acc.length
+  result = [...getWays2 mapping, ["start"]]
+  result.length
