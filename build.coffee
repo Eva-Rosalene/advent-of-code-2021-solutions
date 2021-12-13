@@ -80,18 +80,33 @@ main = () ->
   days = entries.filter (entry) => entry.startsWith("day-") and entry.endsWith(".coffee")
   days.sort (a, b) ->
     getIndex(a) - getIndex(b)
+
   await fsp.mkdir "dist",
     recursive: true
+
   ghIcon = await fsp.readFile "node_modules/@fortawesome/fontawesome-free/svgs/brands/github.svg", "utf-8"
-  ghIcon = ghIcon.replace /<path\s/gi, '<path fill="currentColor" '
+  ghIcon = ghIcon.replace /<path\s/gi, '<path fill="#eee" '
+
   for day from days
     await compile day, ghIcon
   await compileIndex days, ghIcon
+
   for publicEntry from await fsp.readdir "public"
     await fsp.copyFile "public/#{publicEntry}", "dist/#{publicEntry}"
+
   selectAllSource = await fsp.readFile "common/select-all.coffee", "utf-8"
   selectAllJS = coffee.compile selectAllSource
   await fsp.writeFile "dist/select-all.js", selectAllJS
+
+  viewerTemplate = await fsp.readFile "templates/view-day-13.html", "utf-8"
+  viewerHTML = mustache.render viewerTemplate,
+    ghIcon: ghIcon
+  await fsp.writeFile "dist/view-day-13.html", viewerHTML
+
+  viewerCoffee = await fsp.readFile "common/view-day-13.coffee", "utf-8"
+  viewerJS = coffee.compile viewerCoffee
+  await fsp.writeFile "dist/view-day-13.js", viewerJS
+
   await minify() unless process.env.NODE_ENV is "development"
 
 main().catch (error) ->

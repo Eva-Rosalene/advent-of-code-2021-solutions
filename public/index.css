@@ -94,3 +94,21 @@ a:visited {
 .source-header {
   margin-top: 52px;
 }
+
+.disabled-link {
+  color: grey;
+  cursor: not-allowed;
+}
+
+.view-day-13-square {
+  width: 1em;
+  height: 1em;
+}
+
+.view-day-13-square-active {
+  background-color: lightgreen;
+}
+
+.view-day-13-table {
+  border-spacing: 2px;
+}
